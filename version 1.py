@@ -28,6 +28,21 @@ x_test =test_data.iloc[:,1:].values
 
 #imputer = Imputer(missing_values='NaN', strategy='mean', axis=0)
 
+def normalize(x_train):
+    for column in range(11,23):
+        avg = sum(x_train[:,column])/x_train.shape[0]
+        #print (avg)
+        datarange = (max(x_train[:,column]) - min(x_train[:,column]))
+        #print(datarange)
+        for data in range(0,x_train.shape[0]):
+            x_train[data,column] = (x_train[data,column] - avg)/datarange
+    return x_train
+
+features = normalize(features)
+x_test =normalize(x_test)
+
+
+
 
 
 encode= LabelEncoder()
@@ -53,7 +68,7 @@ features = features.astype(np.float)
 
 model= Sequential([Flatten(),Dense(16,activation='sigmoid',input_shape=features.shape),Dense(16,activation='sigmoid'),Dense(1,activation='sigmoid')])
 model.compile(optimizer='adam', loss='mean_squared_error',metrics=['accuracy'])
-model.fit(features, labels, epochs=2, verbose = 1)
+model.fit(features, labels, epochs=10, verbose = 1)
 prediction = model.predict(x_test)
 print(model.predict(x_test))
 
