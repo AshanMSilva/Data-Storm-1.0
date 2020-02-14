@@ -14,9 +14,8 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D
 from tensorflow.keras.callbacks import TensorBoard
-import pandas as pd
-import numpy as np
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+ 
 
 training_data = (pd.read_csv('credit_card_default_train.csv')) #load train csv file and convert it to a 2D matrix
 test_data = (pd.read_csv('credit_card_default_test.csv')) #load test csv file and convert it to a 2D matrix
@@ -64,20 +63,42 @@ x_test= x_test.astype(np.float)
 print(x_test.shape)
 print(features.shape)
 features = features.astype(np.float)
-#x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=1)
+
+#X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size=0.2, random_state=1)
 
 model= Sequential([Flatten(),Dense(16,activation='sigmoid',input_shape=features.shape),Dense(16,activation='sigmoid'),Dense(1,activation='sigmoid')])
 model.compile(optimizer='adam', loss='mean_squared_error',metrics=['accuracy'])
 model.fit(features, labels, epochs=10, verbose = 1)
 prediction = model.predict(x_test)
-print(model.predict(x_test))
+#print(model.predict(X_test))
 
 results =np.zeros(prediction.shape)
 j=0
+next_default=[]
 for j in range(prediction.shape[0]):
     if(prediction[j]<0.5):
         results[j]=0
     else:
         results[j] =1
+#Y_test= Y_test.astype(np.float)
+#Y_test = np.asarray(Y_test)
 
-print(results)
+
+#results = np.array(results).tolist()
+#Y_test = np.array(Y_test).tolist()
+
+#df = pd.DataFrame({'Y_test':Y_test}).to_csv('Sheet2.csv')
+#print(Y_test)
+
+#print(len(results))
+for i in range(len(results)):
+    if (results[i][0]==0.0):
+        next_default.append(0)
+    else:
+        next_default.append(1)
+#print(next_default)
+        
+df = pd.DataFrame({'Client_ID':test_data.Client_ID,'NEXT_MONTH_DEFAULT':next_default}).set_index('Client_ID').to_csv('Sheet2.csv')
+#writer = ExcelWriter('Pandas-Example2.xlsx')Client_ID
+#df.to_excel(writer,'Sheet1',index=False)
+#writer.save()
