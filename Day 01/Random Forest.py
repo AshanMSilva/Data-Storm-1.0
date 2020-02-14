@@ -64,11 +64,12 @@ x_test[:,3] = encode.fit_transform(x_test[:,3])
 x_test[:,4] = encode.fit_transform(x_test[:,4])
 
 
-#X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size=0.3, random_state=42)
+X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size=0.3, random_state=42)
 
 
 
-RF = RandomForestClassifier()
-RF.fit(features, labels)
-prediction= RF.predict(x_test)
-print(accuracy_score(y_sub2, prediction))
+RF = RandomForestClassifier(min_samples_split=5)
+RF.fit(X_train,Y_train)
+prediction= RF.predict(X_test)
+print(accuracy_score(Y_test, prediction))
+#print(accuracy_score(y_sub, prediction))
