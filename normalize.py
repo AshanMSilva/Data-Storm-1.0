@@ -6,4 +6,4 @@ def normalize(x_train):
         #print(datarange)
         for data in range(0,24000):
             x_train[data,column] = (x_train[data,column] - avg)/datarange
-        return x_train
+    return x_train
