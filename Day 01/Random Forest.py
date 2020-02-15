@@ -27,14 +27,14 @@ y_sub = y_sub.iloc[:,1:].values
 y_sub2 = y_sub2.iloc[:,1:].values
 training_data.head()
 test_data.head()
-labels = training_data.iloc[:,-1].values
-features =training_data.iloc[:,1:-1].values
+labels = training_data.iloc[:,12:13].values
+features =training_data.iloc[:,1:12].values
 x_test =test_data.iloc[:,1:].values
 
 #imputer = Imputer(missing_values='NaN', strategy='mean', axis=0)
-
+print(features[0])
 def normalize(x_train):
-    for column in range(11,23):
+    for column in range(5,11):
         avg = sum(x_train[:,column])/x_train.shape[0]
         #print (avg)
         datarange = (max(x_train[:,column]) - min(x_train[:,column]))
@@ -44,7 +44,7 @@ def normalize(x_train):
     return x_train
 
 features = normalize(features)
-x_test =normalize(x_test)
+#x_test =normalize(x_test)
 
 
 
@@ -64,12 +64,21 @@ x_test[:,3] = encode.fit_transform(x_test[:,3])
 x_test[:,4] = encode.fit_transform(x_test[:,4])
 
 
-X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size=0.3, random_state=42)
+X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size=0.3)
 
 
 
-RF = RandomForestClassifier(min_samples_split=5)
+RF = RandomForestClassifier()
 RF.fit(X_train,Y_train)
 prediction= RF.predict(X_test)
+#print(accuracy_score(y_sub2, prediction))
 print(accuracy_score(Y_test, prediction))
-#print(accuracy_score(y_sub, prediction))
+
+
+#RF2 = RandomForestClassifier()
+#RF2.fit(features, labels)
+#prediction2= RF2.predict(x_test)
+#print(accuracy_score(y_sub2, prediction2))
+#print(accuracy_score(y_sub, prediction2))
+
+#pd.DataFrame({'Client_ID':test_data.Client_ID,'NEXT_MONTH_DEFAULT':prediction2}).set_index('Client_ID').to_csv("randForestSubmission5.csv")
