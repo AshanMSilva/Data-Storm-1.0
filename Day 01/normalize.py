@@ -1,3 +1,4 @@
+#function for data normalizing
 def normalize(x_train):
     for column in range(11,23):
         avg = sum(x_train[:,column])/x_train.shape[0]
