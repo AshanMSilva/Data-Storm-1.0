@@ -69,6 +69,4 @@ prediction= RF.predict(X_test)
 #print(accuracy_score(y_sub2, prediction))
 print(accuracy_score(Y_test, prediction))
 
-
-
 #pd.DataFrame({'Client_ID':test_data.Client_ID,'NEXT_MONTH_DEFAULT':prediction2}).set_index('Client_ID').to_csv("randForestSubmission5.csv")

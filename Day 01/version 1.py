@@ -81,6 +81,7 @@ for j in range(prediction.shape[0]):
         results[j] =1
 
 
+
 for i in range(len(results)):
     if (results[i][0]==0.0):
         next_default.append(0)

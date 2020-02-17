@@ -34,6 +34,7 @@ def normalize(x_train):
 features = normalize(features)
 x_test =normalize(x_test)
 
+
 encode= LabelEncoder()
 features[:,0] = encode.fit_transform(features[:,0])
 features[:,1] = encode.fit_transform(features[:,1])
