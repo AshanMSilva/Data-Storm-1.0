@@ -27,7 +27,7 @@ x_test =test_data.iloc[:,1:].values
 
 #imputer = Imputer(missing_values='NaN', strategy='mean', axis=0)
 
-def normalize(x_train):
+def normalize(x_train):                 #function to normalize features
     for column in range(11,23):
         avg = sum(x_train[:,column])/x_train.shape[0]
         #print (avg)
@@ -37,40 +37,40 @@ def normalize(x_train):
             x_train[data,column] = (x_train[data,column] - avg)/datarange
     return x_train
 
-features = normalize(features)
-x_test =normalize(x_test)
+features = normalize(features)          #normalize training data
+x_test =normalize(x_test)               #normalize test data
 
 
-
-
-
+#encode string into numbers in dataset using label encoder.
 encode= LabelEncoder()
-features[:,0] = encode.fit_transform(features[:,0])
-features[:,1] = encode.fit_transform(features[:,1])
-features[:,2] = encode.fit_transform(features[:,2])
-features[:,3] = encode.fit_transform(features[:,3])
-features[:,4] = encode.fit_transform(features[:,4])
+features[:,0] = encode.fit_transform(features[:,0])         #encode balance limit in training set
+features[:,1] = encode.fit_transform(features[:,1])         #encode gender in training set
+features[:,2] = encode.fit_transform(features[:,2])         #encode education status in training set
+features[:,3] = encode.fit_transform(features[:,3])         #encode maritial status in training set
+features[:,4] = encode.fit_transform(features[:,4])         #encode age in training set
 
-x_test[:,0] = encode.fit_transform(x_test[:,0])
-x_test[:,1] = encode.fit_transform(x_test[:,1])
-x_test[:,2] = encode.fit_transform(x_test[:,2])
-x_test[:,3] = encode.fit_transform(x_test[:,3])
-x_test[:,4] = encode.fit_transform(x_test[:,4])
-
+x_test[:,0] = encode.fit_transform(x_test[:,0])             #encode balance limit in test set
+x_test[:,1] = encode.fit_transform(x_test[:,1])             #encode gender in test set
+x_test[:,2] = encode.fit_transform(x_test[:,2])             #encode education status in test set
+x_test[:,3] = encode.fit_transform(x_test[:,3])             #encode maritial status in test set
+x_test[:,4] = encode.fit_transform(x_test[:,4])             #encode age in test set
 x_test= x_test.astype(np.float)
 
-print(x_test.shape)
-print(features.shape)
+#convert test data set into float data type
 features = features.astype(np.float)
 
+#split training data to check accuracy into validatin set
 #X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size=0.2, random_state=1)
 
+#implement model
 model= Sequential([Flatten(),Dense(16,activation='sigmoid',input_shape=features.shape),Dense(16,activation='sigmoid'),Dense(1,activation='sigmoid')])
 model.compile(optimizer='adam', loss='mean_squared_error',metrics=['accuracy'])
+#fit training data to the model
 model.fit(features, labels, epochs=10, verbose = 1)
+#predict output for test data
 prediction = model.predict(x_test)
 
-
+#convert output np array into a list to save in a csv file
 results =np.zeros(prediction.shape)
 j=0
 next_default=[]
@@ -88,6 +88,6 @@ for i in range(len(results)):
     else:
         next_default.append(1)
 
-        
+#create data frame and save output in a csv file            
 df = pd.DataFrame({'Client_ID':test_data.Client_ID,'NEXT_MONTH_DEFAULT':next_default}).set_index('Client_ID').to_csv('Sheet2.csv')
 

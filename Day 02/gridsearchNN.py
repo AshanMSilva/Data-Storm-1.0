@@ -65,7 +65,7 @@ features = features.astype(np.float)
 X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size=0.2, random_state=1)
 
 #list the different values for parameters to get best parameters values
-param_grid = {'C':[1,2,3,4,5,6,7,8,9,10],'max_iter':[75,100,125,200,250,300,500,1000],'random_state':[0,1,2,3,4,5,6,7,8,9]}
+param_grid = {'max_iter':[75,100,125,200,250,300,500,1000],'random_state':[0,1,2,3,4,5,6,7,8,9]}
 
 #model implementing
 model= Sequential([Flatten(),Dense(16,activation='sigmoid',input_shape=features.shape),Dense(8,activation='sigmoid'),Dense(1,activation='sigmoid')])

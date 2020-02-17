@@ -27,8 +27,9 @@ features =training_data.iloc[:,1:12].values
 x_test =test_data.iloc[:,1:].values
 
 #imputer = Imputer(missing_values='NaN', strategy='mean', axis=0)
-print(features[0])
-def normalize(x_train):
+
+
+def normalize(x_train):              #function to normalize features
     for column in range(5,11):
         avg = sum(x_train[:,column])/x_train.shape[0]
         #print (avg)
@@ -38,35 +39,34 @@ def normalize(x_train):
             x_train[data,column] = (x_train[data,column] - avg)/datarange
     return x_train
 
-features = normalize(features)
-x_test =normalize(x_test)
+features = normalize(features)          #normalize training data
+x_test =normalize(x_test)               #normalize test data
 
-
-
-
-
+#encode string into numbers in dataset using label encoder.
 encode= LabelEncoder()
-features[:,0] = encode.fit_transform(features[:,0])
-features[:,1] = encode.fit_transform(features[:,1])
-features[:,2] = encode.fit_transform(features[:,2])
-features[:,3] = encode.fit_transform(features[:,3])
-features[:,4] = encode.fit_transform(features[:,4])
+features[:,0] = encode.fit_transform(features[:,0])         #encode balance limit in training set
+features[:,1] = encode.fit_transform(features[:,1])         #encode gender in training set
+features[:,2] = encode.fit_transform(features[:,2])         #encode education status in training set
+features[:,3] = encode.fit_transform(features[:,3])         #encode maritial status in training set
+features[:,4] = encode.fit_transform(features[:,4])         #encode age in training set
 
-x_test[:,0] = encode.fit_transform(x_test[:,0])
-x_test[:,1] = encode.fit_transform(x_test[:,1])
-x_test[:,2] = encode.fit_transform(x_test[:,2])
-x_test[:,3] = encode.fit_transform(x_test[:,3])
-x_test[:,4] = encode.fit_transform(x_test[:,4])
+x_test[:,0] = encode.fit_transform(x_test[:,0])             #encode balance limit in test set
+x_test[:,1] = encode.fit_transform(x_test[:,1])             #encode gender in test set
+x_test[:,2] = encode.fit_transform(x_test[:,2])             #encode education status in test set
+x_test[:,3] = encode.fit_transform(x_test[:,3])             #encode maritial status in test set
+x_test[:,4] = encode.fit_transform(x_test[:,4])             #encode age in test set
 
 
+#split training data to check accuracy into validatin set
 X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size=0.3)
 
 
-
+#implement model
 RF = RandomForestClassifier()
+#fit training data to the model
 RF.fit(X_train,Y_train)
+#predict output for test data
 prediction= RF.predict(X_test)
-#print(accuracy_score(y_sub2, prediction))
-print(accuracy_score(Y_test, prediction))
+
 
 #pd.DataFrame({'Client_ID':test_data.Client_ID,'NEXT_MONTH_DEFAULT':prediction2}).set_index('Client_ID').to_csv("randForestSubmission5.csv")
