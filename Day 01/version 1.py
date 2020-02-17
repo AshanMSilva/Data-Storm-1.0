@@ -80,15 +80,6 @@ for j in range(prediction.shape[0]):
         results[j]=0
     else:
         results[j] =1
-#Y_test= Y_test.astype(np.float)
-#Y_test = np.asarray(Y_test)
-
-
-#results = np.array(results).tolist()
-#Y_test = np.array(Y_test).tolist()
-
-#df = pd.DataFrame({'Y_test':Y_test}).to_csv('Sheet2.csv')
-#print(Y_test)
 
 #print(len(results))
 for i in range(len(results)):
@@ -99,6 +90,4 @@ for i in range(len(results)):
 #print(next_default)
         
 df = pd.DataFrame({'Client_ID':test_data.Client_ID,'NEXT_MONTH_DEFAULT':next_default}).set_index('Client_ID').to_csv('Sheet2.csv')
-#writer = ExcelWriter('Pandas-Example2.xlsx')Client_ID
-#df.to_excel(writer,'Sheet1',index=False)
-#writer.save()
+
