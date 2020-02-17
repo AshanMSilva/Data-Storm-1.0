@@ -6,16 +6,11 @@ Created on Fri Feb 14 19:04:43 2020
 """
 
 import pandas as pd
-import numpy as np
-import tensorflow as tf
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D
 from tensorflow.keras.callbacks import TensorBoard
 
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 
 training_data = (pd.read_csv('credit_card_default_train.csv')) #load train csv file and convert it to a 2D matrix
@@ -44,7 +39,7 @@ def normalize(x_train):
     return x_train
 
 features = normalize(features)
-#x_test =normalize(x_test)
+x_test =normalize(x_test)
 
 
 
@@ -75,10 +70,5 @@ prediction= RF.predict(X_test)
 print(accuracy_score(Y_test, prediction))
 
 
-#RF2 = RandomForestClassifier()
-#RF2.fit(features, labels)
-#prediction2= RF2.predict(x_test)
-#print(accuracy_score(y_sub2, prediction2))
-#print(accuracy_score(y_sub, prediction2))
 
 #pd.DataFrame({'Client_ID':test_data.Client_ID,'NEXT_MONTH_DEFAULT':prediction2}).set_index('Client_ID').to_csv("randForestSubmission5.csv")
