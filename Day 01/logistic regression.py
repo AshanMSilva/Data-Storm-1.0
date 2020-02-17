@@ -42,9 +42,6 @@ features = normalize(features)
 x_test =normalize(x_test)
 
 
-
-
-
 encode= LabelEncoder()
 features[:,0] = encode.fit_transform(features[:,0])
 features[:,1] = encode.fit_transform(features[:,1])
@@ -57,14 +54,7 @@ x_test[:,1] = encode.fit_transform(x_test[:,1])
 x_test[:,2] = encode.fit_transform(x_test[:,2])
 x_test[:,3] = encode.fit_transform(x_test[:,3])
 x_test[:,4] = encode.fit_transform(x_test[:,4])
-#print(features[:,2])
-#x_test= x_test.astype(np.float)
-#print(x_train.iloc[0,:]['Gender'])
-#print(features)
-#print(x_test.shape)
-#print(features.shape)
-#features = features.astype(np.float)
-#X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size=0.2, random_state=1)
+
 
 logReg =LogisticRegression()
 logReg.fit(features, labels)
@@ -74,15 +64,3 @@ prediction= logReg.predict(x_test)
 
 #print(test_data.Client_ID)
 pd.DataFrame({'Client_ID':test_data.Client_ID,'NEXT_MONTH_DEFAULT':prediction}).set_index('Client_ID').to_csv("submission.csv")
-
-#results =np.zeros(prediction.shape)
-#j=0
-#for j in range(prediction.shape[0]):
-#    if(prediction[j]<0.5):
-#        results[j]=0
-#    else:
-#        results[j] =1
-#
-#print(results[0])
-
-
